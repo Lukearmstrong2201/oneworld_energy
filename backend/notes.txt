@@ -1,3 +1,28 @@
-TODO
+TODO------------------------------------------------------------------------
 
-- Replace credentials in .env file for postgres
+- 
+
+----------------------------HOW TO UPDATE DATABASE--------------------------
+
+Update the /prisma/schema.prisma file
+
+- save the file
+-  run command 'npx prisma migrate dev --name <change-name>'
+
+    -This would create a new sql file
+    -Apply changes to the local DATABASE
+    - update prisma client automatically
+
+Optional: Regenerate Prisma Client manually
+
+- run command 'npx prisma generate'
+
+----------------------------VIEW PRISMA STUDIO GUI--------------------------
+
+run command 'npx prisma studio'
+
+
+
+
+
+
