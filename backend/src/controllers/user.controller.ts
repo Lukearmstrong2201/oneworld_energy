@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getAllUsers, createUser, deleteUserById, findUserById } from '../services/user.service';
 import { getErrorMessage } from '../utils/errorHelper';
+import { prisma } from '../prisma/client';
 
 
 // GET all users
@@ -64,6 +65,25 @@ export const deleteUserController = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(500).json({ error: 'Failed to delete user', details: message });
+  }
+};
+
+export const getLoggedInUser = async (req: Request, res: Response) => {
+  try {
+    const userId = Number((req as any).user.userId); // Ideally you'd type this properly
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const { hashedPassword, ...userWithoutPassword } = user;
+    res.json(userWithoutPassword);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Failed to fetch user',
+      details: getErrorMessage(error),
+    });
   }
 };
 
